@@ -1,0 +1,23 @@
+﻿services:
+  # Serviço do bot de WhatsApp
+  whatsapp-bot:
+    build: .
+    container_name: whatsapp-bot-bomdia
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persiste a sessão do WhatsApp para não precisar escanear QR toda vez
+      - ./auth_info_baileys:/app/auth_info_baileys
+      # Se usar outra pasta, ajuste aqui:
+      # - ./baileys_auth:/app/baileys_auth
+      # - ./sessions:/app/sessions
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    # Configurações para produção
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M

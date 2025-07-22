@@ -1,23 +1,37 @@
-﻿# Imagem base
-FROM node:20
+﻿# Use Node.js 20 Alpine (versão mais recente e leve)
+FROM node:20-alpine
 
-# Diretório de trabalho
-WORKDIR /usr/src/app
+# Instala dependências do sistema necessárias para o Baileys
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    && rm -rf /var/cache/apk/*
 
-# Copiar arquivos
+# Define variáveis de ambiente para o Puppeteer/Chromium
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+    NODE_ENV=production
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia arquivos de dependências primeiro (cache otimizado)
 COPY package*.json ./
-COPY index.js ./
-COPY contatos.json ./
 
-# Instalar dependências
-RUN npm install
+# Instala dependências
+RUN npm ci --only=production && npm cache clean --force
 
-# Copiar script de auth
-COPY auth_download.sh ./
-RUN chmod +x auth_download.sh
+# Copia o código da aplicação
+COPY . .
 
-# Entrypoint: baixa sessão antes de iniciar
-ENTRYPOINT ["./auth_download.sh"]
+# Cria diretório para sessões do WhatsApp
+RUN mkdir -p auth_info_baileys && chmod 755 auth_info_baileys
 
-# Expõe a porta padrão do Express
+# Expõe a porta
 EXPOSE 8080
+
+# Comando para iniciar a aplicação
+CMD ["node", "server.js"]

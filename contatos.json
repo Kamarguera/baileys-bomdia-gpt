@@ -1,0 +1,16 @@
+{
+  "contatos": [
+    "555189506264@s.whatsapp.net",
+    "555193900960@s.whatsapp.net"
+  ],
+  "configuracoes": {
+    "delayEntreMensagens": {
+      "min": 2000,
+      "max": 5000
+    },
+    "horarioEnvio": {
+      "inicio": "06:00",
+      "fim": "09:00"
+    }
+  }
+}

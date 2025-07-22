@@ -1,12 +1,6 @@
-﻿# Criar arquivo .gcloudignore
-echo "node_modules" > .gcloudignore
-echo "auth_info_baileys" >> .gcloudignore
-
-# Deploy
-gcloud run deploy whatsapp-bot \
-  --source . \
+﻿# Deploy direto do GitHub (como vocês fizeram)
+gcloud run deploy whatsapp-bot-bomdia \
+  --source https://github.com/SEU_USUARIO/whatsapp-bot-bomdia \
   --platform managed \
   --region us-central1 \
-  --allow-unauthenticated \
-  --memory 512Mi \
-  --timeout 3600
+  --allow-unauthenticated
