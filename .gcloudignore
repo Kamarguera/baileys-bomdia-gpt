@@ -1,6 +1,6 @@
 ﻿# Deploy direto do GitHub (como vocês fizeram)
-gcloud run deploy whatsapp-bot-bomdia \
-  --source https://github.com/SEU_USUARIO/whatsapp-bot-bomdia \
-  --platform managed \
-  --region us-central1 \
+gcloud run deploy whatsapp-bot-bomdia ^
+  --source https://github.com/kamarguera/whatsapp-bot-bomdia ^
+  --platform managed ^
+  --region us-central1 ^
   --allow-unauthenticated
